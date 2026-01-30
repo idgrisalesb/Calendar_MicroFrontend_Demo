@@ -65,6 +65,7 @@ Check for and load company-specific technology standards:
 - `frontend-standards.md` - Frontend development patterns
 - `architecture-patterns.md` - Architectural decision patterns
 - `technical-preferences-ux.md` - UX/UI preferences
+- `vite-config-standard 1.md` - Vite configuration standards 
 
 **Priority Rules:**
 
