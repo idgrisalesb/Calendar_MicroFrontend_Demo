@@ -131,9 +131,14 @@ Use MCP to install Shadcn components instead of creating manually.
 
 **Default**: Always use Vite + TanStack Router with TypeScript.
 
-**Microfrontends**: Use Vite + Module Federation for distributed architecture.
+**Microfrontends**:
+- **DEFAULT**: Vite + Single-SPA (`vite-plugin-single-spa` + `single-spa-react`) para todos los módulos de negocio
+- **EXCEPCIÓN**: Vite + Module Federation SOLO para módulos transversales/compartidos explícitamente marcados por el ingeniero
 
-**Reasoning**: Vite provides faster builds, TanStack Router offers type-safe routing, and the combination is prepared for microfrontends with Module Federation.
+**Reasoning**:
+- Single-SPA proporciona aislamiento completo (CSS, JS, lifecycle), mejor hot reload, y error boundaries built-in
+- Module Federation solo se usa cuando hay necesidad explícita de compartir código entre MFEs
+- Ver `vite-config-standard.md` para configuración detallada
 
 ## Backend Architecture
 

@@ -1,284 +1,193 @@
 ---
-stepsCompleted:
-  - 1
-  - 2
-  - 3
-  - 4
-  - 5
-  - 6
-  - 7
-  - 8
-  - 9
-  - 10
-  - step-11-complete
-inputDocuments:
-  - /home/idgrisalesbv/Proyectos/Calendar_Demo/brief-mfe-calendario.md
+stepsCompleted: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]
+inputDocuments: ['_bmad-output/planning-artifacts/brief-mfe-calendario.md']
+workflowType: 'prd'
+lastStep: 11
+status: complete
 documentCounts:
   briefCount: 1
   researchCount: 0
   brainstormingCount: 0
   projectDocsCount: 0
-workflowType: 'prd'
-lastStep: 0
 ---
 
 # Product Requirements Document - Siesa-Agents
 
 **Author:** SiesaTeam
-**Date:** 2026-01-30
+**Date:** 2026-02-02
 
 ## Executive Summary
 
-### Product Vision
-To create a standalone, reusable Calendar Microfrontend (MFE) that seamlessly integrates into the Siesa ecosystem via Module Federation. It provides a consistent, isolated, and event-driven interface for date selection, ensuring modularity and reducing dependencies across the main application.
+**Project Vision**
+To create a standalone Calendar Microfrontend (MFE) that serves as a reusable, independent widget for date selection within the Siesa-Agents ecosystem. This widget will expose a calendar grid, navigation controls, and handle date selection logic, seamlessly integrating with other microfrontends via Module Federation and standard browser events.
+
+**Problem Solved**
+Currently, date selection may require duplicated logic or tight coupling between applications. This project provides a centralized, decoupled calendar solution that ensures consistency in UI/UX (using Siesa UI Kit) and simplifies integration across the distributed frontend architecture.
+
+**Target Users**
+- **End Users:** Users interacting with the application who need to view calendars and select dates.
+- **Developers:** Engineering teams integrating date selection capabilities into their specific microfrontends without rebuilding the UI.
 
 ### What Makes This Special
-This project leverages **Module Federation** to deliver a fully independent micro-app that:
-- **Decouples logic:** Operates as a standalone remote with its own build and release cycle.
-- **Communicates via Standards:** Uses native DOM events (`calendar:date-selected`) for loose coupling with any host application.
-- **Enforces Consistency:** Built directly with the Siesa UI Kit to guarantee visual alignment without code duplication.
+
+- **Federated Architecture:** Built specifically as a Module Federation remote, allowing independent development, deployment, and runtime integration.
+- **Event-Driven Integration:** Uses native `CustomEvent` ('calendar:date-selected') for loose coupling, making it framework-agnostic for consumers.
+- **Standardized UI:** Leverages the internal `siesa-ui-kit` to guarantee design consistency with the rest of the application suite.
+- **Standalone Capability:** Includes a standalone development mode for easier testing and maintenance.
 
 ## Project Classification
 
-**Technical Type:** web_app (Microfrontend Widget)
-**Domain:** general
-**Complexity:** low
-**Project Context:** Greenfield - new project
+**Technical Type:** Microfrontend Widget
+**Domain:** General UI / Productivity
+**Complexity:** Low
+**Project Context:** Greenfield (New Component in Federated System)
 
 ## Success Criteria
 
 ### User Success
-
--   **Intuitive Navigation:** Users can navigate between months and identify the current date without hesitation.
--   **Reliable Interaction:** Selecting a date provides immediate visual feedback and triggers the expected application behavior via event emission.
--   **Seamless Integration:** The calendar feels like a native part of the host application, not an iframe or disparate tool.
+- **End User:** Can navigate months and select a date with < 2 clicks. Visual feedback is immediate and clear.
+- **Developer:** can integrate the calendar MFE into a host application in under 30 minutes using the exposed `federation` config.
 
 ### Business Success
-
--   **Code Reduction:** Elimination of duplicate calendar implementations across the Siesa ecosystem.
--   **Integration Velocity:** Reduced time for other teams to integrate date selection functionality into their MFEs or apps.
--   **Maintenance Efficiency:** Bug fixes and updates to the calendar logic are deployed once and propagated to all consumers.
+- **Standardization:** 100% visual consistency with Siesa UI Kit.
+- **Efficiency:** Deployment of the calendar widget updates all consuming applications instantly without redeploying them.
+- **Reliability:** Zero critical bugs reported regarding date selection in the first month.
 
 ### Technical Success
-
--   **Standalone Performance:** The widget operates flawlessly in isolation on port 3001.
--   **Federation Integrity:** The remote entry is successfully consumed by at least one host application without version conflicts.
--   **Event Contract:** The `calendar:date-selected` event is consistently emitted with the correct payload structure (ISO date format).
+- **Performance:** Widget bundle size triggers < 50KB transfer. Initial load time < 200ms.
+- **Isolation:** CSS styles are fully scoped and do not bleed into/from the host application.
+- **Event Handling:** `calendar:date-selected` event is emitted 100% of the time upon selection with correct ISO string payload.
+- **Availability:** Local standalone development environment works on port 3001.
 
 ### Measurable Outcomes
-
--   **Adoption:** Utilized by at least 2 distinct host applications/modules within 3 months.
--   **Reliability:** Zero reported issues related to module federation connectivity or event propagation in production.
+- Pass 100% of defined Acceptance Criteria (navigation, selection, event payload).
+- Successful integration in at least one host application during UAT.
 
 ## Product Scope
 
 ### MVP - Minimum Viable Product
-
--   **Core Interface:** Grid view of the current month with days properly aligned.
--   **Navigation:** Buttons to switch to previous and next months.
--   **Interaction:** Click handler that highlights the selected day and emits the `calendar:date-selected` custom event.
--   **States:** Visual indication of "today" and the currently selected date.
--   **Architecture:** Fully configured Module Federation setup exposing the Widget component.
--   **Branding:** Implementation using Siesa UI Kit components (Button, Badge).
+- **Core View:** Month Grid (7 columns x 6 rows).
+- **Navigation:** Previous/Next Month buttons.
+- **Interactions:** Hover states, Click to select.
+- **Visuals:** Highlight 'Today', Highlight 'Selected'.
+- **Integration:** Expose `./Widget` via Module Federation.
+- **Events:** Dispatch `calendar:date-selected` on click.
+- **Dev:** Standalone mode at `http://localhost:3001`.
 
 ### Growth Features (Post-MVP)
-
--   **Enhanced Accessibility:** Full keyboard navigation support and screen reader optimization (ARIA attributes).
--   **Date Ranges:** Functionality to select a start and end date.
--   **Localization:** Support for different locale formats and first-day-of-week settings.
+- **Range Selection:** Select start and end dates.
+- **Year/Decade View:** Fast navigation to distant dates.
+- **Validation:** Disable past dates or specific blackout dates.
+- **Localization:** Support for different locale formats and first-day-of-week.
 
 ### Vision (Future)
-
--   **Event Display:** Capabilities to receive and display markers or event indicators on specific dates.
--   **Advanced Views:** Week, Day, and Year view modes.
--   **Theming API:** Advanced configuration to override default styles via props or CSS variables.
+- A complete, remote-hosted UI logic library where the calendar is just one of many federated business components.
 
 ## User Journeys
 
-### Journey 1: The End User - "Effortless Interaction"
-**Persona:** Carla, a Travel Agent using the Siesa Booking App.
-**Context:** Carla is on a call with a client and needs to quickly check availability for a flight next month. Speed and accuracy are critical.
-**The Journey:**
-1.  **Trigger:** Carla clicks the "Departure Date" field in the booking form.
-2.  **Action:** The Calendar Widget appears instantly. She notices it displays the current month (January).
-3.  **Navigation:** She needs a date in February. She spots the "Next" button clearly labeled and clicks it.
-4.  **Feedback:** The grid refreshes immediately to show February. The "Current Day" highlight is gone, confirming she is looking at a different month.
-5.  **Selection:** She clicks "February 14th". The day highlights briefly to confirm the click.
-6.  **Outcome:** The calendar emits the selection event, the host app closes the widget, and the input field populates with "2026-02-14". Carla continues her workflow without friction.
+**Journey 1: Laura - The Effortless Booking**
+Laura is an HR manager using the company's "Employee Portal" (a consumer MFE) to schedule a team review. She reaches the "Meeting Date" field. She's in a hurry. She clicks the calendar icon. The Siesa Calendar widget appears instantly, matching the portal's theme perfectly. It shows current month (February). She needs April. She clicks "Next" twice - snappy response. She spots April 15th and clicks it. The calendar closes, and the field says "2026-04-15". She didn't have to think about formats or type anything. She completes the form in seconds, feeling productive.
 
-### Journey 2: The Consumer Developer - "Plug-and-Play Integration"
-**Persona:** Alex, a Frontend Developer building a new "Sales Reporting" dashboard.
-**Context:** Alex has a deadline to ship the dashboard by Friday. He needs a date picker filter but has zero time to build one or style a complex third-party library.
-**The Journey:**
-1.  **Discovery:** Alex checks the project documentation and finds the `mfe-calendar` remote.
-2.  **Configuration:** He adds the remote URL to his `vite.config.ts` federation configuration.
-3.  **Implementation:** He imports the `Widget` component remotely and adds it to his filter panel. He adds a simple event listener: `window.addEventListener('calendar:date-selected', handleDate)`.
-4.  **Validation:** He starts his local server. The calendar renders perfectly, inheriting the base styles of the `siesa-ui-kit` he already uses.
-5.  **Success:** He selects a date, sees his console log the correct ISO string, and moves on to the next task. He saved roughly 2 days of work.
+**Journey 2: David - The Deadline Hero**
+David is a frontend engineer building the "Project Manager" module. His PM creates a last-minute ticket: "Add a 'Start Date' filter to the creating project flow" by EOD. David dreads building a date picker from scratch—handling leap years, accessibility, styles. Then he remembers `mfe-calendar`. He adds the Module Federation remote to his `vite.config.ts`. He imports the Widget. He adds `<CalendarWidget onDateSelected={handleDate} />`. He starts his server. It works. It looks native. He commits the change at 2:00 PM, hours ahead of deadline.
 
-### Journey 3: The Maintainer - "The Global Update"
-**Persona:** Sarah, a Systems Architect managing shared infrastructure.
-**Context:** A critical bug was found where leap years weren't calculating correctly in the shared logic.
-**The Journey:**
-1.  **Diagnosis:** Sarah reproduces the issue in the standalone `mfe-calendar` dev environment running on port 3001.
-2.  **Fix:** She patches the `useCalendar` hook logic to correctly handle leap years.
-3.  **Verification:** She verifies the fix with unit tests and manual checking in the standalone widget.
-4.  **Deployment:** She merges the PR and the CI/CD pipeline deploys the new `remoteEntry.js`.
-5.  **Impact:** Alex (from Journey 2) and the Booking App team (from Journey 1) don't need to do anything. The next time their users load the app, they receive the fixed logic automatically.
+**Journey 3: SysAdmin - The Silent Fix**
+A critical bug is reported: "Calendar shows wrong days for leap years." It affects the HR Portal, the CRM, and the Project Manager apps. Instead of coordinating three teams to patch three apps, the Core Platform team simply fixes the logic in `mfe-calendar` repository. They bump the version and deploy to the CDN. Instantly, Laura, David, and all other users see the correct behavior on their next page refresh. No app redeployments required. The system is self-healing.
 
 ### Journey Requirements Summary
+- **UI/UX:** Responsive Month Navigation, Click-to-select, Visual integration (Theming).
+- **DX (Developer Experience):** Simple import interface, standard input/output contract (Events).
+- **Architecture:** Hot-deployment capability via Module Federation (Remote-hosted).
+- **Performance:** Instant visual feedback for end-users.
 
-**Core Capabilities Revealed:**
-*   **Visual Feedback:** Instant response to navigation and selection is critical for end-user trust (Journey 1).
-*   **Standard Interfaces:** Event-based communication (`window.dispatchEvent`) is essential for agnostic integration (Journey 2).
-*   **Standalone Development:** The ability to run and test port 3001 is key for maintenance (Journey 3).
-*   **Shared Dependencies:** Correct configuration of shared libs (`siesa-ui-kit`) is what ensures visual consistency (Journey 2 & 3).
+## Component Specific Requirements
 
-## Web App Specific Requirements
+### Module Federation Interface
+- **Remote Name:** `mfeCalendar`
+- **Filename:** `remoteEntry.js`
+- **Exposes:**
+  - `./Widget`: `./src/Widget.tsx`
+- **Shared Dependencies:**
+  - `react`: singleton, required
+  - `react-dom`: singleton, required
+  - `siesa-ui-kit`: singleton, required
 
-### Project-Type Overview
-As a **Microfrontend Widget**, this web application focuses on lightweight, framework-agnostic integration standards while maintaining high interactive fidelity. It prioritizes runtime performance and seamless composition over traditional SEO or page-level concerns.
+### Event API Specification
+- **Event Name:** `calendar:date-selected`
+- **Trigger:** Click on a valid date cell.
+- **Payload Schema:**
+  ```typescript
+  interface CalendarDateSelectedEventDetail {
+    date: string; // ISO 8601 format (YYYY-MM-DD)
+  }
+  ```
+- **Bubbling:** Yes, bubbles up to `window` for global capture if needed (though usually attached to container).
 
 ### Technical Architecture Considerations
-
-*   **Architecture Pattern:** Microfrontend (Runtime Integration via Module Federation).
-*   **Asset Delivery:** Remote entry file (`remoteEntry.js`) served via static host/CDN. It must support CORS headers (`Access-Control-Allow-Origin: *`) to be consumed by hosts on different domains/ports.
-*   **Dependency Management:** Singleton sharing for `react` and `react-dom` is critical. `siesa-ui-kit` should also be shared to prevent style duplication.
-*   **Isolation:** CSS styles must be scoped (CSS Modules or Shadow DOM) or namespaced to prevent bleeding into the host application. Events must be namespaced (`calendar:date-selected`) to avoid collisions.
-
-### Browser & Device Support Table
-
-| Browser Family | Supported Versions | Notes |
-| :--- | :--- | :--- |
-| **Chrome / Edge** | Last 2 major versions | Primary target for testing. |
-| **Firefox** | Last 2 major versions | |
-| **Safari** | Last 2 major versions | Critical for iOS/macOS users. |
-| **IE / Legacy** | Not Supported | Modern ES modules required. |
-
-### Responsive Design Strategy
-
-*   **Fluid Width:** The widget must adapt to the container width provided by the host application (e.g., sidebars, modals, or full pages).
-*   **Breakpoints:**
-    *   **Compact (< 300px):** Minimal header, condensed grid padding.
-    *   **Standard (>= 300px):** Default comfortable spacing as per UI Kit.
-*   **Touch Targets:** All interactive elements (Day cells, navigation buttons) must meet minimum touch target sizes (44x44px) for mobile usability.
-
-### Performance Targets
-
-*   **Bundle Size:** Initial load (remoteEntry + main chunks) should be **under 50KB (gzipped)** excluding shared dependencies (React/UI Kit).
-*   **First Contentful Paint (FCP):** < 1.0s when loaded standalone.
-*   **Time to Interactive (TTI):** < 1.5s.
-*   **Core Web Vitals:** Cumulative Layout Shift (CLS) must be 0 (widget should reserve space or have fixed aspect ratio if possible) to avoid shifting host content.
-
-### Accessibility Standards (WCAG AA)
-
-*   **Keyboard Navigation:** Full support for `Tab` to enter widget, `Arrow Keys` to navigate date grid, `Enter/Space` to select.
-*   **Screen Readers:**
-    *   Correct `role="grid"` for calendar structure.
-    *   `aria-label` on navigation buttons ("Next Month").
-    *   `aria-selected="true"` on the active date.
-    *   Focus management: When month changes, focus should logically move or remain stable.
-*   **Contrast:** All text and UI elements must meet 4.5:1 contrast ratio (inheriting from Siesa UI Kit compliance).
-
-### SEO Strategy
-**Not Applicable.** This widget is an interactive tool loaded dynamically behind authentication or user interaction; it does not require search engine indexing.
+- **Styling Strategy:** Use CSS Modules or Siesa UI Kit's built-in styling engine to prevent global CSS pollution.
+- **Assets:** Any assets (icons) must be inlined or served from the remote public path to avoid 404s when consumed.
+- **State Management:** Internal state (current month view) managed via React `useState`. No external state dependency (Redux/Context) required from host.
 
 ## Project Scoping & Phased Development
 
-### MVP Strategy & Philosophy
-
-**MVP Approach:** **Experience MVP**.
-Since this is a UI widget, "utility" is not enough. It must feel polished and native to the host application from Day 1 to drive adoption. We prioritize visual fidelity (using Siesa UI Kit) and seamless interaction over advanced features like date ranges.
-
-**Resource Requirements:**
-*   **Team:** 1 Frontend Engineer.
-*   **Timeframe:** Estimated 1-2 Sprints (2-4 weeks).
-*   **Key Skills:** React, Vite/Module Federation, CSS Modules.
+### MVP Strategy
+- **Approach:** **Problem-Solving MVP**. Focus purely on the "select a date" interactions to unblock dependent applications.
+- **Resource Requirements:** 1 Frontend Engineer (3 days).
 
 ### MVP Feature Set (Phase 1)
+- **Core User Journeys:** Journey 1 (End User Booking), Journey 2 (Dev Integration).
+- **Must-Have Capabilities:**
+    - Month View Grid.
+    - Date Selection Logic.
+    - Prev/Next Navigation.
+    - Module Federation Exposure.
 
-**Core User Journeys Supported:**
-*   Journey 1 (End User Navigation & Selection)
-*   Journey 2 (Developer Integration)
-*   Journey 3 (Maintainer Hotfix)
+### Post-MVP Roadmap
+- **Phase 2 (Growth - Month 2):** Range Selection, Year View, Blackout Dates.
+- **Phase 3 (Expansion - Month 6):** Full Internationalization (i18n), Keyboard Navigation (Accessibility WCAG AA).
 
-**Must-Have Capabilities:**
-*   **Rendering:** 7x6 Grid for current month.
-*   **Navigation:** Previous/Next month buttons.
-*   **Styles:** Full Siesa UI Kit integration (Tokens, Fonts, Buttons).
-*   **Events:** `calendar:date-selected` emission on click.
-*   **Accessibility:** Basic keyboard navigation (Tab/Enter) and Contrast Ratios (AA).
-*   **Infrastructure:** Standalone Port 3001 & Remote Entry exposed.
-
-### Post-MVP Features
-
-**Phase 2 (Growth & Polish):**
-*   **Date Range Selection:** Start/End date logic.
-*   **Advanced Accessibility:** Full ARIA Grid pattern support.
-*   **Localization:** First day of week (Sunday vs Monday) & Month names via `Intl`.
-
-**Phase 3 (Expansion):**
-*   **Event Markers:** API to pass in array of dates to highlight (e.g., "Has Appointment").
-*   **Theming API:** CSS Variables for consumer overrides.
-*   **Year/Decade View:** For faster navigation.
-
-### Risk Mitigation Strategy
-
-**Technical Risks:**
-*   *Risk:* CSS conflicts with host apps.
-*   *Mitigation:* Strict CSS Module usage or Shadow DOM (if supported by UI kit).
-
-**Market/Adoption Risks:**
-*   *Risk:* Developers find it harder to use than a raw library.
-*   *Mitigation:* "Plug-and-Play" documentation in the implementation guide (Phase 1 deliverable).
-
-**Resource Risks:**
-*   *Risk:* Module Federation configuration issues.
-*   *Mitigation:* Use `vite-plugin-federation` standard patterns and validate with a "Hello World" remote first.
+### Risk Mitigation
+- **Technical Risk:** *Dependency Hell with React versions.*
+    - **Mitigation:** Enforce Singleton loading in `vite.config.ts` and define strict peerDependencies.
+- **Integration Risk:** *Styles breaking host app.*
+    - **Mitigation:** Use rigorous CSS scoping (CSS Modules) and verify with shadow DOM if needed (though CSS modules preferred for React).
 
 ## Functional Requirements
 
-### Initialization & Configuration
-*   **FR1:** The Host Application can load the calendar widget remotely via Module Federation.
-*   **FR2:** The Developer can configure the remote entry URL in the build configuration.
-*   **FR3:** The Widget acts as a standalone React component when imported.
+### Navigation & Display
+- FR1: End User can view the days of the current month in a 7-column grid.
+- FR2: End User can navigate to the previous month.
+- FR3: End User can navigate to the next month.
+- FR4: End User can see the current day highlighted visually.
+- FR5: End User can see dates from previous/next months (padded dates) visually distinct from current month dates.
 
-### Navigation & View
-*   **FR4:** The User can view the days of the current month in a 7-column grid layout.
-*   **FR5:** The User can identify the current day via visual distinction.
-*   **FR6:** The User can identify the currently selected date (if any) via visual distinction.
-*   **FR7:** The User can navigate to the previous month.
-*   **FR8:** The User can navigate to the next month.
-*   **FR9:** Facet: Navigation honors the boundaries of the Gregorian calendar (e.g., Leap years, varying month lengths).
+### Date Selection
+- FR6: End User can click on a valid date cell to select it.
+- FR7: End User can see the selected date highlighted.
+- FR8: End User cannot select invalid dates (if validation is enabled).
+- FR9: System must prevent selection of days that don't exist (e.g. Feb 30).
 
-### Interaction & Selection
-*   **FR10:** The User can select a specific date by clicking on a day cell.
-*   **FR11:** The System must emit a `calendar:date-selected` custom event upon selection.
-*   **FR12:** The Event Payload must include the selected date in ISO 8601 format (`YYYY-MM-DD`).
-*   **FR13:** The System must prevent selection of invalid dates (if constraints are applied in future).
+### Integration Interface
+- FR10: Host Application can mount the widget using Module Federation.
+- FR11: Host Application can listen for `calendar:date-selected` events on the window or container.
+- FR12: Host Application can receive the selected date in ISO format via the event detail.
 
-### Integration & Isolation
-*   **FR14:** The Widget must inherit base styles (fonts, colors) from the shared `siesa-ui-kit`.
-*   **FR15:** The Widget must isolate its structural Layout CSS to prevent side effects on the Host Application.
-*   **FR16:** The Widget must function correctly regardless of the container width provided by the Host.
+### Developer Experience
+- FR13: Developer can run the widget in standalone mode on port 3001.
 
 ## Non-Functional Requirements
 
 ### Performance
-*   **Startup Time:** The widget must render its first frame within **500ms** of `remoteEntry` load.
-*   **Response Time:** Month switches must occur within **100ms** (perceived instant).
-*   **Bundle Size:** The initial JS payload must not exceed **50KB gzipped** (excluding React/UI Kit).
-
-### Compatibility & Reliability
-*   **Browser Support:** Must function in the last 2 versions of Chrome, Firefox, Safari, and Edge.
-*   **Dependency Resilience:** Must degrade gracefully (throw console error) if shared dependencies (React, UI Kit) are missing or incompatible versions.
-*   **Container Agnosticism:** Must render correctly in containers ranging from **280px** to full screen width.
+- NFR1: Initial render time of the calendar component must be under 50ms on a mid-range device.
+- NFR2: Interaction latency (click to update) must be under 16ms (60fps) to ensure jank-free experience.
+- NFR3: Bundle size contribution to the host application must not exceed 50KB (gzipped) for the initial load.
 
 ### Accessibility
-*   **Compliance:** Must meet **WCAG 2.1 Level AA** standards.
-*   **Keyboard Support:** All interactive elements must be navigable via Tab/Arrow keys.
-*   **Screen Readers:** Must declare correct ARIA roles and labels for date grid navigation.
+- NFR4: The widget must support full keyboard navigation (arrows to move, Enter to select).
+- NFR5: The widget must be screen-reader accessible (ARIA labels for current date, selected date, and navigation buttons).
+- NFR6: Color contrast ratios must meet WCAG 2.1 AA standards for text and UI elements.
 
 ### Integration
-*   **Versioning:** Must use semantic versioning for the exposed remote entry to allow safe updates.
-*   **Conflict Avoidance:** Must use scoped CSS or unique class prefixes to prevent style leaking.
+- NFR7: The widget must not crash the host application if an internal error occurs (Error Boundary required).
+- NFR8: The widget styles must be isolated and not affect or be affected by global host styles (CSS Isolation).
+- NFR9: The widget must work correctly in modern browsers (Chrome, Firefox, Safari, Edge - last 2 versions).

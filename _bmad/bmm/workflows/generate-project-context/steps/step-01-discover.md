@@ -65,7 +65,7 @@ Check for and load company-specific technology standards:
 - `frontend-standards.md` - Frontend development patterns
 - `architecture-patterns.md` - Architectural decision patterns
 - `technical-preferences-ux.md` - UX/UI preferences
-- `vite-config-standard 1.md` - Vite configuration standards 
+- `vite-config-standard.md` - Vite Config Standard
 
 **Priority Rules:**
 
@@ -80,7 +80,7 @@ When loading company standards, specifically look for and highlight:
 - 🔴 **siesa-ui-kit requirement** - Must check siesa-ui-kit before creating components
 - 🔴 **Spanish UI text** - All user-facing text must be in Spanish
 - 🔴 **DateTimeOffset** - Use DateTimeOffset not DateTime for PostgreSQL
-- Technology stack versions (.NET 10, Vite 6+, etc.)
+- Technology stack versions (.NET 10, Vite 7+, etc.)
 
 Report: "✅ Estándares corporativos cargados: {count} archivos con {rules_count} reglas críticas"
 

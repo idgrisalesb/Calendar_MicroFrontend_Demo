@@ -92,7 +92,32 @@ Este documento define los estándares de desarrollo frontend para aplicaciones e
 | Escenario | Framework | Razón |
 |-----------|-----------|-------|
 | **Default** | Vite + TanStack Router | Mejor DX, type-safety, preparado para microfrontends |
-| **Microfrontends** | Vite + Module Federation | Arquitectura distribuida |
+| **MFE (Default)** | Vite + Single-SPA | Aislamiento completo, CSS lifecycle, error boundaries built-in |
+| **Módulo Federable** | Vite + Module Federation | SOLO para módulos transversales explícitamente marcados |
+
+### 2.3 Regla Crítica: Single-SPA vs Module Federation
+
+> ⚠️ **IMPORTANTE**: Por defecto, todos los microfrontends usan **Single-SPA**. Module Federation se usa **SOLO** cuando el ingeniero define explícitamente que un módulo debe ser compartido/federable.
+
+| Tipo | Tecnología | Uso |
+|------|------------|-----|
+| **MFE de Negocio** | `vite-plugin-single-spa` + `single-spa-react` | ✅ DEFAULT - finance, hr, inventory, etc. |
+| **Módulo Compartido** | `@module-federation/vite` | ⚠️ SOLO cuando explícitamente requerido |
+
+**Dependencias Single-SPA (DEFAULT):**
+```bash
+npm install single-spa-react
+npm install vite-plugin-single-spa --save-dev
+```
+
+**Beneficios de Single-SPA:**
+- CSS isolation automático via `cssLifecycleFactory`
+- Error boundaries built-in
+- Lifecycle completo (bootstrap, mount, unmount)
+- Mejor hot reload
+- Menor complejidad de configuración
+
+Ver `vite-config-standard.md` para configuración detallada.
 
 ### 2.3 Herramientas de Desarrollo
 

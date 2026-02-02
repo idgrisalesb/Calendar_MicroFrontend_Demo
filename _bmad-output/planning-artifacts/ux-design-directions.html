@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UX Design Directions - Calendar MFE</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .direction { border: 2px solid #e5e7eb; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        .direction:hover { border-color: #3b82f6; }
+        .calendar-mock { width: 280px; border: 1px solid #e2e8f0; padding: 16px; margin: 0 auto; background: white; }
+    </style>
+</head>
+<body class="bg-gray-50 p-8">
+    <h1 class="text-3xl font-bold mb-8 text-center">Design Direction Exploration</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Direction 1: Classic Enterprise -->
+        <div class="direction">
+            <h2 class="text-xl font-bold mb-4">1. Classic Enterprise</h2>
+            <p class="text-gray-600 mb-4">High density, sharp corners, distinct borders available.</p>
+            <div class="calendar-mock rounded-none shadow-none border-gray-300">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="font-bold text-sm">February 2026</span>
+                    <div class="space-x-1">
+                        <button class="border px-2 py-0.5 text-xs bg-gray-100"><</button>
+                        <button class="border px-2 py-0.5 text-xs bg-gray-100">></button>
+                    </div>
+                </div>
+                <div class="grid grid-cols-7 gap-0 text-center text-xs">
+                    <div class="font-bold border bg-gray-50">Mo</div><div class="font-bold border bg-gray-50">Tu</div><div class="font-bold border bg-gray-50">We</div>
+                    <div class="font-bold border bg-gray-50">Th</div><div class="font-bold border bg-gray-50">Fr</div><div class="font-bold border bg-gray-50">Sa</div><div class="font-bold border bg-gray-50">Su</div>
+
+                    <div class="border p-1 text-gray-300">26</div><div class="border p-1 text-gray-300">27</div><div class="border p-1 text-gray-300">28</div>
+                    <div class="border p-1 text-gray-300">29</div><div class="border p-1 text-gray-300">30</div><div class="border p-1">31</div><div class="border p-1">1</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Direction 2: Modern Fluid (Siesa Standard) -->
+        <div class="direction border-blue-500 bg-blue-50 ring-2 ring-blue-200">
+            <h2 class="text-xl font-bold mb-4 text-blue-700">2. Modern Fluid (Recommended)</h2>
+            <p class="text-gray-600 mb-4">Rounded corners, ghost interactions, clean hierarchy.</p>
+            <div class="calendar-mock rounded-lg shadow-lg border-gray-100">
+                <div class="flex justify-between items-center mb-4 px-2">
+                    <span class="font-semibold text-sm">February 2026</span>
+                    <div class="space-x-1">
+                        <button class="p-1 rounded-md hover:bg-gray-100">‹</button>
+                        <button class="p-1 rounded-md hover:bg-gray-100">›</button>
+                    </div>
+                </div>
+                <div class="grid grid-cols-7 gap-1 text-center text-sm">
+                    <div class="text-xs text-gray-400 py-1">Mo</div><div class="text-xs text-gray-400 py-1">Tu</div><div class="text-xs text-gray-400 py-1">We</div>
+                    <div class="text-xs text-gray-400 py-1">Th</div><div class="text-xs text-gray-400 py-1">Fr</div><div class="text-xs text-gray-400 py-1">Sa</div><div class="text-xs text-gray-400 py-1">Su</div>
+
+                    <div class="text-gray-300 py-1">26</div><div class="text-gray-300 py-1">27</div><div class="text-gray-300 py-1">28</div>
+                    <div class="text-gray-300 py-1">29</div><div class="text-gray-300 py-1">30</div><div class="py-1">31</div><div class="py-1">1</div>
+                    <div class="font-normal py-1">2</div><div class="font-normal py-1">3</div><div class="bg-blue-600 text-white rounded-md py-1">4</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Direction 3: Minimalist -->
+        <div class="direction">
+            <h2 class="text-xl font-bold mb-4">3. Minimalist</h2>
+            <p class="text-gray-600 mb-4">Text-focused, no chrome, gesture implication.</p>
+            <div class="calendar-mock border-0 shadow-sm">
+                <div class="text-center mb-6">
+                    <span class="text-lg font-light">Feb 2026</span>
+                </div>
+                <div class="grid grid-cols-7 gap-4 text-center text-xs">
+                    <div class="text-gray-400">M</div><div class="text-gray-400">T</div><div class="text-gray-400">W</div>
+                    <div class="text-gray-400">T</div><div class="text-gray-400">F</div><div class="text-gray-400">S</div><div class="text-gray-400">S</div>
+
+                    <div class="text-gray-200">26</div><div class="text-gray-200">27</div><div class="text-gray-200">28</div>
+                    <div class="text-gray-200">29</div><div class="text-gray-200">30</div><div>31</div><div>1</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

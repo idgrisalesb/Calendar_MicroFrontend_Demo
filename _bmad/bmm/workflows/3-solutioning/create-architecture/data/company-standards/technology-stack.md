@@ -3,7 +3,7 @@
 ## Frontend Stack
 
 ### Bundler & Dev Server
-- **Vite 6+** with TypeScript
+- **Vite 7+** with TypeScript
   - Default bundler for all frontend projects
   - Native ES modules for fast development
   - Optimized for Module Federation (microfrontends)
