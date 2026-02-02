@@ -41,8 +41,8 @@ story_location: _bmad-output/implementation-artifacts
 
 development_status:
   epic-1: in-progress
-  1-1-project-skeleton-module-federation-setup: backlog
-  1-2-business-logic-implementation-usecalendar-hook: backlog
+  1-1-project-skeleton-module-federation-setup: done
+  1-2-business-logic-implementation-usecalendar-hook: ready-for-dev
   1-3-calendar-grid-ui-implementation: backlog
   1-4-navigation-and-selection-interaction: backlog
   1-5-accessibility-keyboard-navigation: backlog

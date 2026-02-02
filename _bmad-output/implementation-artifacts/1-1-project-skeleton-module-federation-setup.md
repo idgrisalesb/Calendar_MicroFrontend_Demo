@@ -1,6 +1,6 @@
 # Story 1.1: Project Skeleton & Module Federation Setup
 
-Status: ready-for-dev
+Status: done
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
@@ -67,17 +67,17 @@ New project initialization. No previous history to consider.
 - [x] Initialize Project (AC: 1, 3)
   - [x] Use `npm create vite@latest mfe-calendar -- --template react-ts`
   - [x] Install dependencies: `react`, `react-dom`, `@module-federation/vite`, `siesa-ui-kit`, `tailwindcss`, `vitest`
-- [ ] Configure Vite & Module Federation (AC: 4, 5)
-  - [ ] Configure `vite.config.ts` with federation plugin
-  - [ ] Set port 3001
-  - [ ] Expose `./Widget`
-- [ ] Configure Tailwind & UI Kit (AC: 6)
-  - [ ] Setup `tailwind.config.ts` (or v4 CSS import)
-  - [ ] Include siesa-ui-kit content paths
-- [ ] Create Entry Component
-  - [ ] Create `src/modules/calendar/presentation/Widget.tsx`
-- [ ] Verify Build
-  - [ ] Run build and check for `remoteEntry.js`
+- [x] Configure Vite & Module Federation (AC: 4, 5)
+  - [x] Configure `vite.config.ts` with federation plugin
+  - [x] Set port 3001
+  - [x] Expose `./Widget`
+- [x] Configure Tailwind & UI Kit (AC: 6)
+  - [x] Setup `tailwind.config.ts` (or v4 CSS import)
+  - [x] Include siesa-ui-kit content paths
+- [x] Create Entry Component
+  - [x] Create `src/modules/calendar/presentation/Widget.tsx`
+- [x] Verify Build
+  - [x] Run build and check for `remoteEntry.js`
 
 ## Dev Notes
 
@@ -94,9 +94,27 @@ New project initialization. No previous history to consider.
 Claude Code
 
 ### Debug Log References
+- Fixed Peer Dependency conflict between Vite 7 and Module Federation by pinning Vite to 7.1.7.
+- Re-initialized project structure as it was empty/corrupt.
+- Disabled Federation plugin during test mode to resolve usage issues with Vitest.
+- Fixed App.tsx to render Widget in standalone mode.
+- Added siesa-ui-kit source to index.css for Tailwind config.
+- Moved development dependencies to devDependencies in package.json.
+- Cleaned up git trash files.
 
 ### Completion Notes List
+- Validated build generates `remoteEntry.js`.
+- Implemented `Widget.tsx` using `siesa-ui-kit` Button.
+- Added component tests checking rendering.
+- Configured Tailwind 4 via CSS import.
 
 ### File List
 - mfe-calendar/package.json
 - mfe-calendar/vite.config.ts
+- mfe-calendar/src/modules/calendar/presentation/Widget.tsx
+- mfe-calendar/src/modules/calendar/presentation/__tests__/Widget.test.tsx
+- mfe-calendar/src/main.tsx
+- mfe-calendar/src/index.css
+- mfe-calendar/src/App.tsx
+- mfe-calendar/index.html
+- mfe-calendar/.gitignore

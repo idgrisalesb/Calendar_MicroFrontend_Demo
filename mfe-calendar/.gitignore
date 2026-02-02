@@ -12,7 +12,9 @@ dist
 dist-ssr
 *.local
 
-# Editor directories and files
+# Module Federation
+.__mf__temp
+
 .vscode/*
 !.vscode/extensions.json
 .idea
