@@ -36,6 +36,7 @@ export const DayCell = forwardRef<HTMLButtonElement, DayCellProps>((props, ref) 
       variant="ghost"
       aria-label={label}
       className={cn(
+        "h-9 w-9 p-0 font-normal",
         isSelected && "!bg-primary !text-primary-foreground hover:!bg-primary/90",
         isOutsideMonth && "opacity-50",
         isToday && "font-bold",

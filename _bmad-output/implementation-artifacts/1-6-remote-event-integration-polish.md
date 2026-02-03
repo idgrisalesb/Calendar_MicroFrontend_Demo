@@ -112,6 +112,9 @@ Claude 3.5 Sonnet
 - Created `src/modules/calendar/presentation/Widget.tsx` to expose `CalendarGrid` as the federation entry point.
 - Validated `vite.config.ts` configuration.
 - Added integration test to verify event payload and bubbling.
+- Fixed styling issues where calendar rendered as a list:
+  - Added `@tailwindcss/vite` plugin to `vite.config.ts` to enable Tailwind v4 class generation.
+  - Refined `DayCell` and `CalendarGrid` styles to ensure correct grid layout and "siesa-ui-kit" alignment.
 
 ### File List
 

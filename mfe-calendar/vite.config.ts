@@ -1,11 +1,13 @@
 /// <reference types="vitest" />
 import { defineConfig } from 'vitest/config'
 import react from '@vitejs/plugin-react'
+import tailwindcss from '@tailwindcss/vite'
 import { federation } from '@module-federation/vite';
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => ({
   plugins: [
+    tailwindcss(),
     react(),
     mode !== 'test' && federation({
       name: 'mfe_calendar',

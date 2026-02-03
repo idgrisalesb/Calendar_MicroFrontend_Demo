@@ -104,7 +104,7 @@ export const CalendarGrid: React.FC<CalendarGridProps> = ({ initialDate, onDateS
         </div>
 
         {/* Day Grid */}
-        <div className="grid grid-cols-7 gap-1" role="grid">
+        <div className="grid grid-cols-7 gap-1 place-items-center" role="grid">
           {days.map((day, index) => {
             const isFocused = focusedDate && day.date.toDateString() === focusedDate.toDateString();
             return (
