@@ -2,24 +2,22 @@
 import { defineConfig } from 'vitest/config'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
-import { federation } from '@module-federation/vite';
+import vitePluginSingleSpa from 'vite-plugin-single-spa'
 
 // https://vite.dev/config/
 export default defineConfig(({ mode }) => ({
+  base: '/calendar/',
   plugins: [
     tailwindcss(),
     react(),
-    mode !== 'test' && federation({
-      name: 'mfe_calendar',
-      filename: 'remoteEntry.js',
-      exposes: {
-        './Widget': './src/modules/calendar/presentation/Widget.tsx',
-      },
-      shared: ['react', 'react-dom', 'siesa-ui-kit'],
+    mode !== 'test' && vitePluginSingleSpa({
+      type: 'mfe',
+      serverPort: 3002,
+      spaEntryPoint: 'src/spa.tsx',
     }),
   ],
   server: {
-    port: 3001,
+    port: 3002,
   },
   build: {
     target: 'chrome89',

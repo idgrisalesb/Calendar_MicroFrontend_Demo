@@ -16,8 +16,10 @@
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "siesa-ui-kit": "^1.0.26",
+    "single-spa-react": "^6.0.2",
     "tailwind-merge": "^3.4.0",
-    "tailwindcss": "^4.1.18"
+    "tailwindcss": "^4.1.18",
+    "vite-plugin-single-spa": "^1.1.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
