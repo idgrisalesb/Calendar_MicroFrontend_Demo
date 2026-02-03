@@ -1,6 +1,6 @@
 # Story 1.2: Business Logic Implementation (useCalendar Hook)
 
-**Status:** ready-for-dev
+**Status:** done
 **Epic:** 1 - Implementación del Widget de Calendario Microfrontend
 
 ## User Story
@@ -17,6 +17,11 @@
 - **And** It should correctly identify "padding days" from the previous and next months
 - **And** It should correctly handle Leap Years (e.g., Feb 29, 2024)
 - **And** It should provide functions to jump to `nextMonth` and `prevMonth`
+
+## Tasks
+
+- [x] Define Domain Types (`src/modules/calendar/domain/types.ts`) and Constants (`src/modules/calendar/domain/constants.ts`)
+- [x] Implement `useCalendar` hook logic and Unit Tests (`src/modules/calendar/application/useCalendar.ts`)
 
 ## Technical Implementation Guide
 
@@ -67,6 +72,15 @@ src/
 ### Previous Story Context
 - **1-1 Project Skeleton:** The project structure should already exist. Ensure you are working within the `mfe-calendar` directory.
 
-### Git Context
-- Use the `mfe-calendar` subdirectory.
-- Follow commit message convention: `feat(calendar): implement useCalendar hook logic`.
+## File List
+
+- src/modules/calendar/domain/types.ts
+- src/modules/calendar/domain/constants.ts
+- src/modules/calendar/application/useCalendar.ts
+- src/modules/calendar/application/__tests__/useCalendar.test.ts
+
+## Completion Notes
+
+- Defined domain types and constants.
+- Implemented `useCalendar` hook with pure business logic.
+- Added comprehensive unit tests covering grid generation, navigation, and edge cases.
