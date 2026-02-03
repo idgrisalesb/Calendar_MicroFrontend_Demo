@@ -23,7 +23,7 @@ export const CalendarHeader: React.FC<CalendarHeaderProps> = ({
   return (
     <div className="flex items-center justify-between p-4">
       <h2 className="text-lg font-semibold capitalize">
-        {formattedDate}
+        {displayDate}
       </h2>
       <div className="flex items-center gap-2">
         <Button

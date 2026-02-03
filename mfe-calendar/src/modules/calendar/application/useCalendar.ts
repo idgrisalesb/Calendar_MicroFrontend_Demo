@@ -1,5 +1,5 @@
 import { useState, useMemo } from 'react';
-import { CalendarDay } from '../domain/types';
+import type { CalendarDay } from '../domain/types';
 import { TOTAL_GRID_DAYS } from '../domain/constants';
 
 interface UseCalendarProps {
@@ -12,6 +12,11 @@ export const useCalendar = ({ initialDate = new Date() }: UseCalendarProps = {})
     return new Date(initialDate.getFullYear(), initialDate.getMonth(), 1);
   });
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+
+  // Initialize focusedDate to initialDate or today
+  const [focusedDate, setFocusedDate] = useState<Date>(() => {
+    return new Date(initialDate);
+  });
 
   const days = useMemo(() => {
     const year = currentMonth.getFullYear();
@@ -55,12 +60,27 @@ export const useCalendar = ({ initialDate = new Date() }: UseCalendarProps = {})
     setCurrentMonth(prev => new Date(prev.getFullYear(), prev.getMonth() - 1, 1));
   };
 
+  const moveFocus = (daysToAdd: number) => {
+    const newDate = new Date(focusedDate);
+    newDate.setDate(newDate.getDate() + daysToAdd);
+
+    setFocusedDate(newDate);
+
+    // Sync currentMonth if necessary
+    if (newDate.getMonth() !== currentMonth.getMonth() || newDate.getFullYear() !== currentMonth.getFullYear()) {
+        setCurrentMonth(new Date(newDate.getFullYear(), newDate.getMonth(), 1));
+    }
+  };
+
   return {
     currentMonth,
     days,
     selectedDate,
+    focusedDate,
     nextMonth,
     prevMonth,
-    setSelectedDate
+    setSelectedDate,
+    setFocusedDate,
+    moveFocus
   };
 };

@@ -84,7 +84,7 @@
         ,
           "siesa-ui-kit": {
             name: "siesa-ui-kit",
-            version: "1.0.24",
+            version: "1.0.26",
             scope: ["default"],
             loaded: false,
             from: "mfe_calendar",
@@ -107,7 +107,7 @@
             },
             shareConfig: {
               singleton: false,
-              requiredVersion: "^1.0.24",
+              requiredVersion: "^1.0.26",
               
             }
           }

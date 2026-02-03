@@ -1,6 +1,6 @@
 # Story 1.5: Accessibility & Keyboard Navigation
 
-Status: ready-for-dev
+Status: review
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
@@ -20,22 +20,22 @@ So that I can use the widget without a mouse.
 
 ## Tasks / Subtasks
 
-- [ ] Implement Keyboard Navigation Logic (AC: 1, 2, 5)
-  - [ ] Update `useCalendar` hook (or create specific hook) to handle date arithmetic for keyboard navigation (add/subtract days/weeks).
-  - [ ] Implement Roving Tabindex strategy in `CalendarGrid`: only the focused (or selected) date should have `tabIndex={0}`, others `{-1}`.
-  - [ ] Add `onKeyDown` handler to the Grid or Cells to intercept Arrow keys.
-- [ ] Implement Keyboard Selection (AC: 3)
-  - [ ] Handle `Enter` and `Space` keydown events to trigger `onDateSelected`.
-- [ ] Accessibility Attributes & Roles (AC: 4)
-  - [ ] Ensure Grid container has `role="grid"` (or `role="application"`/`dialog` depending on pattern, typically `grid` for calendar).
-  - [ ] Ensure Day cells have `role="gridcell"` (containing a button/text).
-  - [ ] Add `aria-label` to day cells with full verbose date (e.g., "Monday, February 2nd 2026").
-  - [ ] Manage `aria-selected` state on cells.
-- [ ] Verify Siesa UI Kit Compliance
-  - [ ] Use `siesa-ui-kit` primitives for focus styles/rings where possible.
-- [ ] Testing
-  - [ ] Write Vitest unit tests for navigation logic.
-  - [ ] Write RTL tests simulating `userEvent.keyboard` sequences.
+- [x] Implement Keyboard Navigation Logic (AC: 1, 2, 5)
+  - [x] Update `useCalendar` hook (or create specific hook) to handle date arithmetic for keyboard navigation (add/subtract days/weeks).
+  - [x] Implement Roving Tabindex strategy in `CalendarGrid`: only the focused (or selected) date should have `tabIndex={0}`, others `{-1}`.
+  - [x] Add `onKeyDown` handler to the Grid or Cells to intercept Arrow keys.
+- [x] Implement Keyboard Selection (AC: 3)
+  - [x] Handle `Enter` and `Space` keydown events to trigger `onDateSelected`.
+- [x] Accessibility Attributes & Roles (AC: 4)
+  - [x] Ensure Grid container has `role="grid"` (or `role="application"`/`dialog` depending on pattern, typically `grid` for calendar).
+  - [x] Ensure Day cells have `role="gridcell"` (containing a button/text).
+  - [x] Add `aria-label` to day cells with full verbose date (e.g., "Monday, February 2nd 2026").
+  - [x] Manage `aria-selected` state on cells.
+- [x] Verify Siesa UI Kit Compliance
+  - [x] Use `siesa-ui-kit` primitives for focus styles/rings where possible.
+- [x] Testing
+  - [x] Write Vitest unit tests for navigation logic.
+  - [x] Write RTL tests simulating `userEvent.keyboard` sequences.
 
 ## Dev Notes
 
@@ -61,5 +61,14 @@ Claude Code
 ### Debug Log References
 
 ### Completion Notes List
+- (Step 7) Implemented focusedDate and moveFocus logic to support keyboard navigation. Added unit tests for cursor movement.
+- Integrated Roving Tabindex + Keyboard Navigation logic into CalendarGrid.
+- Implemented Enter/Space selection handling.
+- Verified Accessibility roles and aria-labels are present.
+- Updated tests to cover keyboard interactions.
 
 ### File List
+- mfe-calendar/src/modules/calendar/application/useCalendar.ts
+- mfe-calendar/src/modules/calendar/application/__tests__/useCalendar.test.ts
+- mfe-calendar/src/modules/calendar/presentation/components/CalendarGrid.tsx
+- mfe-calendar/src/modules/calendar/presentation/components/__tests__/CalendarGrid.test.tsx

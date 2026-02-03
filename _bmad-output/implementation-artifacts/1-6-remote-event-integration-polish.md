@@ -1,6 +1,6 @@
 # Story 1.6: Remote Event Integration Polish
 
-Status: ready-for-dev
+Status: review
 
 <!-- Note: Validation is optional. Run validate-create-story for quality check before dev-story. -->
 
@@ -22,17 +22,17 @@ so that the widget can be successfully consumed by host applications and communi
 
 ## Tasks / Subtasks
 
-- [ ] Implement `calendar:date-selected` event dispatching logic
-  - [ ] Update `useCalendar` hook or event handler in `CalendarGrid`
-  - [ ] Ensure ISO 8601 formatting
-- [ ] Verify and update `vite.config.ts` for Module Federation
-  - [ ] Check `exposes` configuration
-  - [ ] Check `shared` configuration (react, react-dom, siesa-ui-kit)
-- [ ] Verify Standalone Mode
-  - [ ] Test on port 3001
-- [ ] Polish Code
-  - [ ] Remove debug logs
-  - [ ] Clean up unused imports
+- [x] Implement `calendar:date-selected` event dispatching logic
+  - [x] Update `useCalendar` hook or event handler in `CalendarGrid`
+  - [x] Ensure ISO 8601 formatting
+- [x] Verify and update `vite.config.ts` for Module Federation
+  - [x] Check `exposes` configuration
+  - [x] Check `shared` configuration (react, react-dom, siesa-ui-kit)
+- [x] Verify Standalone Mode
+  - [x] Test on port 3001
+- [x] Polish Code
+  - [x] Remove debug logs
+  - [x] Clean up unused imports
 
 ## Dev Notes
 
@@ -107,4 +107,14 @@ Claude 3.5 Sonnet
 
 ### Completion Notes List
 
+- Implemented `calendar:date-selected` event dispatching in `CalendarGrid.tsx`.
+- Dispatched event uses ISO 8601 format (`YYYY-MM-DD`) and bubbles up.
+- Created `src/modules/calendar/presentation/Widget.tsx` to expose `CalendarGrid` as the federation entry point.
+- Validated `vite.config.ts` configuration.
+- Added integration test to verify event payload and bubbling.
+
 ### File List
+
+- mfe-calendar/src/modules/calendar/presentation/components/CalendarGrid.tsx
+- mfe-calendar/src/modules/calendar/presentation/Widget.tsx
+- mfe-calendar/src/modules/calendar/presentation/components/__tests__/CalendarGrid.test.tsx

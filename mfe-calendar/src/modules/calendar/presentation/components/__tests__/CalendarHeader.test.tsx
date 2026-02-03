@@ -1,7 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import { CalendarHeader } from '../CalendarHeader';
-import React from 'react';
 
 describe('CalendarHeader', () => {
   const defaultDate = new Date(2026, 1, 1); // February 2026

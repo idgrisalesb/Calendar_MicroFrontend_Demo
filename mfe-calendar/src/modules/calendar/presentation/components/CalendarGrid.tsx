@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { useCalendar } from '../../application/useCalendar';
 import { CalendarHeader } from './CalendarHeader';
 import { DayCell } from './DayCell';
@@ -9,29 +9,68 @@ interface CalendarGridProps {
 }
 
 export const CalendarGrid: React.FC<CalendarGridProps> = ({ initialDate, onDateSelected }) => {
-  const { currentMonth, days, nextMonth, prevMonth, selectedDate, setSelectedDate } = useCalendar({ initialDate });
+  const {
+    currentMonth,
+    days,
+    nextMonth,
+    prevMonth,
+    setSelectedDate,
+    focusedDate,
+    moveFocus
+  } = useCalendar({ initialDate });
 
   const daysRef = useRef<(HTMLButtonElement | null)[]>([]);
+
+  // Focus synchronizer: When focusedDate changes, focus the corresponding cell
+  useEffect(() => {
+    if (!focusedDate) return;
+    const focusedIndex = days.findIndex(d => d.date.toDateString() === focusedDate.toDateString());
+    if (focusedIndex >= 0 && daysRef.current[focusedIndex]) {
+      daysRef.current[focusedIndex]?.focus();
+    }
+  }, [focusedDate, days]);
 
   const handleDaySelect = (date: Date) => {
     setSelectedDate(date);
     onDateSelected?.(date);
-    window.dispatchEvent(new CustomEvent('calendar:date-selected', { detail: { date } }));
+
+    // Format to YYYY-MM-DD (ISO 8601)
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    const isoDate = `${year}-${month}-${day}`;
+
+    window.dispatchEvent(new CustomEvent('calendar:date-selected', {
+      detail: { date: isoDate },
+      bubbles: true,
+      composed: true
+    }));
   };
 
-  const handleKeyDown = (e: React.KeyboardEvent, index: number) => {
-    let newIndex = index;
+  const handleKeyDown = (e: React.KeyboardEvent) => {
     switch (e.key) {
-      case 'ArrowRight': newIndex = index + 1; break;
-      case 'ArrowLeft': newIndex = index - 1; break;
-      case 'ArrowDown': newIndex = index + 7; break;
-      case 'ArrowUp': newIndex = index - 7; break;
+      case 'ArrowRight':
+        e.preventDefault();
+        moveFocus(1);
+        break;
+      case 'ArrowLeft':
+        e.preventDefault();
+        moveFocus(-1);
+        break;
+      case 'ArrowDown':
+        e.preventDefault();
+        moveFocus(7);
+        break;
+      case 'ArrowUp':
+        e.preventDefault();
+        moveFocus(-7);
+        break;
+      case 'Enter':
+      case ' ':
+        e.preventDefault();
+        handleDaySelect(focusedDate);
+        break;
       default: return;
-    }
-
-    if (newIndex >= 0 && newIndex < days.length) {
-      e.preventDefault();
-      daysRef.current[newIndex]?.focus();
     }
   };
 
@@ -66,20 +105,23 @@ export const CalendarGrid: React.FC<CalendarGridProps> = ({ initialDate, onDateS
 
         {/* Day Grid */}
         <div className="grid grid-cols-7 gap-1" role="grid">
-          {days.map((day, index) => (
-            <DayCell
-              key={index}
-              ref={(el) => { daysRef.current[index] = el; }}
-              date={day.date}
-              isSelected={day.isSelected}
-              isToday={day.isToday}
-              isOutsideMonth={!day.isCurrentMonth}
-              onClick={() => handleDaySelect(day.date)}
-              onKeyDown={(e) => handleKeyDown(e, index)}
-              tabIndex={day.isSelected || (!selectedDate && index === 0) ? 0 : -1}
-              role="gridcell"
-            />
-          ))}
+          {days.map((day, index) => {
+            const isFocused = focusedDate && day.date.toDateString() === focusedDate.toDateString();
+            return (
+              <DayCell
+                key={index}
+                ref={(el) => { daysRef.current[index] = el; }}
+                date={day.date}
+                isSelected={day.isSelected}
+                isToday={day.isToday}
+                isOutsideMonth={!day.isCurrentMonth}
+                onClick={() => handleDaySelect(day.date)}
+                onKeyDown={handleKeyDown}
+                tabIndex={isFocused ? 0 : -1}
+                role="gridcell"
+              />
+            );
+          })}
         </div>
       </div>
     </div>

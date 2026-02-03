@@ -24,11 +24,41 @@ describe('CalendarGrid', () => {
         nextMonth: vi.fn(),
         prevMonth: vi.fn(),
         selectedDate: null,
-        setSelectedDate: vi.fn()
+        setSelectedDate: vi.fn(),
+        focusedDate: mockDate,
+        moveFocus: vi.fn(),
+        setFocusedDate: vi.fn()
     };
 
     beforeEach(() => {
         vi.spyOn(useCalendarHook, 'useCalendar').mockReturnValue(mockUseCalendar);
+    });
+
+    // ... existing tests ...
+
+    it('calls moveFocus when arrow keys are pressed', () => {
+        render(<CalendarGrid />);
+        // ...
+        const dayButtons = screen.getAllByRole('gridcell');
+        const firstDay = dayButtons[0];
+
+        // Simulate KeyDown on it
+        fireEvent.keyDown(firstDay, { key: 'ArrowRight' });
+        expect(mockUseCalendar.moveFocus).toHaveBeenCalledWith(1);
+    });
+
+    it('selects date when Enter or Space is pressed', () => {
+        render(<CalendarGrid />);
+        const cell = screen.getAllByRole('gridcell')[0];
+
+        // Mock date at index 0 is Feb 1 2026
+        const expectedDate = mockDays[0].date;
+
+        fireEvent.keyDown(cell, { key: 'Enter' });
+        expect(mockUseCalendar.setSelectedDate).toHaveBeenCalledWith(expectedDate);
+
+        fireEvent.keyDown(cell, { key: ' ' }); // Space
+        expect(mockUseCalendar.setSelectedDate).toHaveBeenCalledTimes(2);
     });
 
     it('renders the CalendarHeader with current month', () => {
@@ -60,27 +90,6 @@ describe('CalendarGrid', () => {
         expect(cells.length).toBe(42);
     });
 
-    it('handles keyboard navigation (arrow keys)', () => {
-        render(<CalendarGrid />);
-        // Find a day button. "1" appears multiple times (Feb 1, Mar 1)
-        // ensure we get the button, not the span
-        const dayOnes = screen.getAllByText('1');
-        // The first one is likely the text inside the button. get closest button.
-        const firstDay = dayOnes[0].closest('button');
-        expect(firstDay).toBeTruthy();
-
-        if (!firstDay) return;
-
-        firstDay.focus();
-        expect(document.activeElement).toBe(firstDay);
-
-        // Press Right Arrow -> Should focus '2'
-        fireEvent.keyDown(firstDay, { key: 'ArrowRight' });
-
-        const dayTwos = screen.getAllByText('2');
-        const secondDay = dayTwos[0].closest('button');
-        expect(document.activeElement).toBe(secondDay);
-    });
 
     it('calls onPrevMonth when previous button is clicked', () => {
         render(<CalendarGrid />);
@@ -125,7 +134,10 @@ describe('CalendarGrid', () => {
         expect(dispatchSpy).toHaveBeenCalled();
         const event = dispatchSpy.mock.calls.find(call => call[0].type === 'calendar:date-selected');
         expect(event).toBeTruthy();
-        expect((event![0] as CustomEvent).detail).toEqual({ date: expectedDate });
+
+        // Expect ISO string and bubbling
+        expect((event![0] as CustomEvent).detail).toEqual({ date: '2026-02-05' });
+        expect((event![0] as CustomEvent).bubbles).toBe(true);
     });
 
     it('has correct accessibility attributes', () => {

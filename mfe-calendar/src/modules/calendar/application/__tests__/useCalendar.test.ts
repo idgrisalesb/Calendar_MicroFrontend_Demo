@@ -87,4 +87,50 @@ describe('useCalendar Hook', () => {
     const selectedDay = result.current.days.find(d => d.date.getDate() === 15 && d.isCurrentMonth);
     expect(selectedDay?.isSelected).toBe(true);
   });
+
+  it('should move focus with keyboard navigation', () => {
+    const initialDate = new Date(2026, 1, 15); // Feb 15
+    const { result } = renderHook(() => useCalendar({ initialDate }));
+
+    // Expect focusedDate to satisfy the test
+    expect(result.current.focusedDate.getDate()).toBe(15);
+
+    // Move Right (+1 day)
+    act(() => {
+        result.current.moveFocus(1);
+    });
+    expect(result.current.focusedDate.getDate()).toBe(16);
+
+    // Move Down (+7 days)
+    act(() => {
+        result.current.moveFocus(7);
+    });
+    expect(result.current.focusedDate.getDate()).toBe(23);
+
+    // Move Left (-1 day)
+    act(() => {
+        result.current.moveFocus(-1);
+    });
+    expect(result.current.focusedDate.getDate()).toBe(22);
+
+    // Move Up (-7 days)
+    act(() => {
+        result.current.moveFocus(-7);
+    });
+    expect(result.current.focusedDate.getDate()).toBe(15);
+  });
+
+  it('should switch month when focus moves out of current month', () => {
+    // Start at Feb 28 2026 (Not a leap year)
+    const initialDate = new Date(2026, 1, 28);
+    const { result } = renderHook(() => useCalendar({ initialDate }));
+
+    act(() => {
+       result.current.moveFocus(1); // +1 day -> March 1
+    });
+
+    expect(result.current.focusedDate.getDate()).toBe(1);
+    expect(result.current.focusedDate.getMonth()).toBe(2); // March
+    expect(result.current.currentMonth.getMonth()).toBe(2); // Should move view
+  });
 });

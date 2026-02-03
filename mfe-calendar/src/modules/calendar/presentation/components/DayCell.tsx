@@ -2,11 +2,12 @@ import React, { forwardRef } from 'react';
 import { Button } from 'siesa-ui-kit';
 import { cn } from '../../../../lib/utils';
 
-interface DayCellProps extends React.ComponentProps<typeof Button> {
+interface DayCellProps extends Omit<React.ComponentProps<typeof Button>, 'ref'> {
   date: Date;
   isSelected?: boolean;
   isToday?: boolean;
   isOutsideMonth?: boolean;
+  className?: string;
 }
 
 const dateFormatter = new Intl.DateTimeFormat('es-ES', {
@@ -16,14 +17,15 @@ const dateFormatter = new Intl.DateTimeFormat('es-ES', {
   day: 'numeric'
 });
 
-export const DayCell = forwardRef<HTMLButtonElement, DayCellProps>(({
-  date,
-  isSelected,
-  isToday,
-  isOutsideMonth,
-  className,
-  ...props
-}, ref) => {
+export const DayCell = forwardRef<HTMLButtonElement, DayCellProps>((props, ref) => {
+  const {
+    date,
+    isSelected,
+    isToday,
+    isOutsideMonth,
+    className,
+    ...otherProps
+  } = props as DayCellProps;
   const dayNumber = date.getDate();
 
   const label = dateFormatter.format(date);
@@ -39,7 +41,7 @@ export const DayCell = forwardRef<HTMLButtonElement, DayCellProps>(({
         isToday && "font-bold",
         className
       )}
-      {...props}
+      {...otherProps}
     >
       {dayNumber}
     </Button>
