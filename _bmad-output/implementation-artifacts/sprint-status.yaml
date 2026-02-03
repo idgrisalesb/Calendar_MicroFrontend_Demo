@@ -43,8 +43,8 @@ development_status:
   epic-1: in-progress
   1-1-project-skeleton-module-federation-setup: done
   1-2-business-logic-implementation-usecalendar-hook: done
-  1-3-calendar-grid-ui-implementation: ready-for-dev
-  1-4-navigation-and-selection-interaction: ready-for-dev
-  1-5-accessibility-keyboard-navigation: backlog
-  1-6-remote-event-integration-polish: backlog
+  1-3-calendar-grid-ui-implementation: done
+  1-4-navigation-and-selection-interaction: review
+  1-5-accessibility-keyboard-navigation: ready-for-dev
+  1-6-remote-event-integration-polish: ready-for-dev
   epic-1-retrospective: optional

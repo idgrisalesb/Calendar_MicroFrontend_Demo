@@ -1,7 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { renderHook, act } from '@testing-library/react';
 import { useCalendar } from '../useCalendar';
-import { CalendarDay } from '../../domain/types';
 
 describe('useCalendar Hook', () => {
   it('should return initial state with correct month', () => {
@@ -23,7 +22,6 @@ describe('useCalendar Hook', () => {
     // Feb 2026 starts on Sunday (index 0).
     // Wait, let's verify. 2026-02-01.
     // DOM uses 0=Sun.
-    const date = new Date(2026, 1, 1);
     // If it starts on Sunday, the first day of grid is that Sunday (Feb 1).
     // So days[0] should be Feb 1 and isCurrentMonth = true.
 
